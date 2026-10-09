@@ -24,9 +24,9 @@ main {
 /* 円形 */
 #circle {
   position: absolute;
-  width: 3cm;
-  height: 3cm;
-  border: 3px solid black;
+  width: 1cm;
+  height: 1cm;
+  border: 1px solid black;
   border-radius: 50%;
   background-color: white;
   box-sizing: border-box;
