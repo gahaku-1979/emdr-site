@@ -4,7 +4,7 @@ const main = document.querySelector("main");
 const toggleButton = document.getElementById("toggleButton");
 
 // 設定値
-const duration = 10000; // 1往復にかかる時間（ミリ秒）
+const duration = 3000; // 1往復にかかる時間（ミリ秒）
 const margin = 30;      // 画面端からの余白（px）
 
 let running = true;
