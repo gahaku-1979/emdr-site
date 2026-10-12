@@ -1,23 +1,33 @@
+* {
+  box-sizing: border-box;
+}
 
-/* ページ全体 */
 body {
   margin: 0;
-  background-color: #DCE9DF;
+  background-color: #dce9df;
   font-family: sans-serif;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* タイトル */
 header {
   text-align: center;
   padding: 15px;
-  color: #34483D;
+  color: #34483d;
 }
 
-/* 円が動く領域 */
+header h1 {
+  font-size: 22px;
+}
+
+/* 円の動作領域 */
 main {
   position: relative;
   width: 100%;
-  height: 70vh;
+  flex: 1;
   overflow: hidden;
 }
 
@@ -29,21 +39,62 @@ main {
   border: 3px solid black;
   border-radius: 50%;
   background-color: white;
-  box-sizing: border-box;
 
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
-/* 操作ボタン */
-footer {
+/* 終了後のメッセージ */
+#message {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 90%;
   text-align: center;
-  padding: 15px;
+  color: #24543b;
+  font-size: 26px;
+  font-weight: bold;
 }
 
-button {
-  padding: 10px 30px;
-  font-size: 16px;
+/* hidden属性を優先 */
+#message[hidden] {
+  display: none;
+}
+
+/* 下部の操作領域 */
+footer {
+  position: relative;
+  min-height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 左下のカウントダウン */
+#countdown {
+  position: absolute;
+  bottom: 20px;
+  left: 15px;
+
+  color: #24543b;
+  font-size: 13px;
+}
+
+/* 再開ボタン */
+#restartButton {
+  padding: 12px 35px;
+  font-size: 18px;
+  background-color: #34483d;
+  color: white;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
+}
+
+/* hidden属性がある場合は非表示にする */
+#restartButton[hidden] {
+  display: none;
 }
