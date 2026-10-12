@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>1人で行うEMDR</title>
+    <title>1人で行うEMDRサイト</title>
 
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
@@ -12,19 +12,39 @@
 
   <body>
     <main>
-      <!-- 左右に動く円 -->
-      <div id="circle"></div>
+      <!-- 初期画面のスタートボタン -->
+      <button id="startButton" type="button">EMDRスタート</button>
 
-      <!-- セッション終了後のメッセージ -->
-      <div id="message" hidden>何が思い浮かびましたか？</div>
+      <!-- 左右に動く円（初期状態は非表示） -->
+      <div id="circle" hidden></div>
+
+      <!-- セッション終了後の入力画面 -->
+      <section id="resultArea" hidden>
+        <h2>何が思い浮かびましたか？</h2>
+
+        <textarea
+          id="memo"
+          rows="6"
+          placeholder="思い浮かんだことを入力してください"
+          aria-label="思い浮かんだこと"
+        ></textarea>
+
+        <button id="exportButton" type="button">TXT出力</button>
+      </section>
     </main>
 
     <footer>
       <!-- 左下のカウントダウン -->
-      <div id="countdown" role="timer">残り 30 秒</div>
+      <div id="countdown" role="timer" hidden>残り 30 秒</div>
 
-      <!-- 再開ボタン -->
+      <!-- 動作中だけ表示 -->
+      <button id="stopButton" type="button" hidden>停止</button>
+
+      <!-- セッション終了時だけ表示 -->
       <button id="restartButton" type="button" hidden>再開</button>
+
+      <!-- 右下のサイト名 -->
+      <div id="siteTitle">1人で行うEMDRサイト</div>
     </footer>
   </body>
 </html>
