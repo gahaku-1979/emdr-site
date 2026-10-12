@@ -1,20 +1,30 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>１人で行うEMDRサイト</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <main>
-    <div id="circle"></div>
-  </main>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <footer>
-    <button id="toggleButton" type="button">一時停止</button>
-  </footer>
-</body>
+    <title>1人で行うEMDR</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+    <main>
+      <!-- 左右に動く円 -->
+      <div id="circle"></div>
+
+      <!-- セッション終了後のメッセージ -->
+      <div id="message" hidden>何が思い浮かびましたか？</div>
+    </main>
+
+    <footer>
+      <!-- 左下のカウントダウン -->
+      <div id="countdown" role="timer">残り 30 秒</div>
+
+      <!-- 再開ボタン -->
+      <button id="restartButton" type="button" hidden>再開</button>
+    </footer>
+  </body>
 </html>
