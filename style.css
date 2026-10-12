@@ -4,34 +4,46 @@
 
 body {
   margin: 0;
-  background-color: #dce9df;
-  font-family: sans-serif;
   min-height: 100vh;
   min-height: 100dvh;
+  background-color: #dce9df;
+  font-family: sans-serif;
   display: flex;
   flex-direction: column;
 }
 
-/* タイトル */
-header {
-  text-align: center;
-  padding: 15px;
-  color: #34483d;
-}
-
-header h1 {
-  font-size: 22px;
-}
-
-/* 円の動作領域 */
+/* メイン領域 */
 main {
   position: relative;
   width: 100%;
   flex: 1;
-  overflow: hidden;
+  min-height: 250px;
+  overflow: auto;
 }
 
-/* 円形 */
+/* 共通ボタン */
+button {
+  padding: 12px 30px;
+  font-size: 17px;
+  background-color: #34483d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* 初期画面のスタートボタン */
+#startButton {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  padding: 16px 38px;
+  font-size: 20px;
+}
+
+/* 動く円 */
 #circle {
   position: absolute;
   width: 3cm;
@@ -45,29 +57,49 @@ main {
   transform: translate(-50%, -50%);
 }
 
-/* 終了後のメッセージ */
-#message {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-
+/* セッション終了後の入力領域 */
+#resultArea {
   width: 90%;
-  text-align: center;
-  color: #24543b;
-  font-size: 26px;
-  font-weight: bold;
+  max-width: 650px;
+  margin: 0 auto;
+  min-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px 0;
 }
 
-/* hidden属性を優先 */
-#message[hidden] {
-  display: none;
+/* 問いかけ */
+#resultArea h2 {
+  color: #24543b;
+  font-size: 24px;
+  text-align: center;
+}
+
+/* テキスト入力欄 */
+#memo {
+  width: 100%;
+  min-height: 160px;
+  padding: 12px;
+
+  border: 1px solid #789383;
+  border-radius: 8px;
+  background-color: white;
+
+  color: #243c2e;
+  font-size: 16px;
+  font-family: inherit;
+  resize: vertical;
 }
 
 /* 下部の操作領域 */
 footer {
   position: relative;
   min-height: 90px;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,25 +108,26 @@ footer {
 /* 左下のカウントダウン */
 #countdown {
   position: absolute;
-  bottom: 20px;
   left: 15px;
+  bottom: 20px;
 
   color: #24543b;
   font-size: 13px;
 }
 
-/* 再開ボタン */
-#restartButton {
-  padding: 12px 35px;
-  font-size: 18px;
-  background-color: #34483d;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+/* 右下のサイト名 */
+#siteTitle {
+  position: absolute;
+  right: 15px;
+  bottom: 20px;
+
+  color: #24543b;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: right;
 }
 
-/* hidden属性がある場合は非表示にする */
-#restartButton[hidden] {
-  display: none;
+/* 非表示制御 */
+[hidden] {
+  display: none !important;
 }
