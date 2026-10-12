@@ -1,17 +1,23 @@
 const circle = document.getElementById("circle");
 const main = document.querySelector("main");
-const message = document.getElementById("message");
+const resultArea = document.getElementById("resultArea");
+const memo = document.getElementById("memo");
 const countdown = document.getElementById("countdown");
+
+const startButton = document.getElementById("startButton");
+const stopButton = document.getElementById("stopButton");
 const restartButton = document.getElementById("restartButton");
+const exportButton = document.getElementById("exportButton");
 
 // ===== 設定 =====
-const sessionDuration = 30000; // 1セッション30秒
-const period = 3000; // 円の1往復4秒
-const margin = 10; // 左右端の余白
+const sessionDuration = 30000; // 30秒
+const period = 4000; // 1往復4秒
+const margin = 30; // 左右の余白
 
 // ===== 管理変数 =====
 let startTime = null;
 let animationId = null;
+let running = false;
 
 // ===== 円の位置を計算 =====
 function getPosition(elapsed) {
@@ -20,89 +26,156 @@ function getPosition(elapsed) {
     (main.clientWidth - circle.offsetWidth) / 2 - margin,
   );
 
-  const x = amplitude * Math.sin((2 * Math.PI * elapsed) / period);
-
-  return x;
+  return amplitude * Math.sin((2 * Math.PI * elapsed) / period);
 }
 
-// ===== セッション終了処理 =====
+// ===== セッション終了 =====
 function finishSession() {
+  if (!running) return;
+
+  running = false;
+
+  // アニメーション停止
+  if (animationId !== null) {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+  }
+
   // 円を消す
-  circle.style.display = "none";
+  circle.hidden = true;
 
-  // 中央にメッセージを表示する
-  message.hidden = false;
+  // 入力画面を表示
+  resultArea.hidden = false;
 
-  // 再開ボタンを表示
+  // ボタンを切り替え
+  stopButton.hidden = true;
   restartButton.hidden = false;
 
-  // カウントダウンを0にする
+  // カウントダウン
   countdown.textContent = "残り 0 秒";
-
-  // アニメーションを終了する
-  animationId = null;
 }
 
-// ===== アニメーション処理 =====
+// ===== アニメーション =====
 function animate(timestamp) {
+  if (!running) return;
+
   if (startTime === null) {
     startTime = timestamp;
   }
 
   const elapsed = timestamp - startTime;
 
-  // 30秒経過したら終了
+  // 30秒経過
   if (elapsed >= sessionDuration) {
     finishSession();
     return;
   }
 
-  // 残り時間を表示
+  // カウントダウン
   const remaining = Math.ceil((sessionDuration - elapsed) / 1000);
 
   countdown.textContent = `残り ${remaining} 秒`;
 
-  // 円の位置を取得
+  // 円の位置計算
   const x = getPosition(elapsed);
 
-  // 円を左右へ移動
   circle.style.transform = `translate(calc(-50% + ${x}px), -50%)`;
 
-  // 次のフレームを描画
   animationId = requestAnimationFrame(animate);
 }
 
-// ===== セッション開始処理 =====
+// ===== セッション開始 =====
 function startSession() {
-  // 前のアニメーションがあれば停止
+  // 前のアニメーションを停止
   if (animationId !== null) {
     cancelAnimationFrame(animationId);
+    animationId = null;
   }
 
-  // 開始時刻を初期化
   startTime = null;
+  running = true;
 
-  // 円を再表示
-  circle.style.display = "block";
+  // スタートボタンを消す
+  startButton.hidden = true;
 
-  // 再開ボタンを非表示
-  restartButton.hidden = true;
+  // 円を表示
+  circle.hidden = false;
 
-  // 円を中央に戻す
+  // 円の位置を中央に戻す
   circle.style.transform = "translate(-50%, -50%)";
 
-  // メッセージを非表示
-  message.hidden = true;
+  // 入力画面を消す
+  resultArea.hidden = true;
 
-  // カウントダウンを初期化
+  // 停止ボタンを表示
+  stopButton.hidden = false;
+
+  // 再開ボタンを消す
+  restartButton.hidden = true;
+
+  // カウントダウンを表示
+  countdown.hidden = false;
   countdown.textContent = "残り 30 秒";
 
   // アニメーション開始
   animationId = requestAnimationFrame(animate);
 }
 
-// ===== 再開ボタン =====
+// ===== TXTファイル名生成 =====
+function createFileName() {
+  const now = new Date();
+
+  const yyyy = now.getFullYear();
+  const MM = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mm = String(now.getMinutes()).padStart(2, "0");
+  const ss = String(now.getSeconds()).padStart(2, "0");
+
+  return `${yyyy}${MM}${dd}${hh}${mm}${ss}.txt`;
+}
+
+// ===== TXT出力 =====
+function exportText() {
+  const text = memo.value;
+
+  if (text.trim() === "") {
+    alert("テキストを入力してください。");
+    return;
+  }
+
+  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = createFileName();
+
+  document.body.appendChild(a);
+
+  a.click();
+  a.remove();
+
+  // 一時URLを解放
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+  }, 60000);
+}
+
+// ===== イベント設定 =====
+
+// 初期画面のスタート
+startButton.addEventListener("click", startSession);
+
+// 停止ボタン
+stopButton.addEventListener("click", finishSession);
+
+// 再開ボタン
 restartButton.addEventListener("click", startSession);
 
-// ページ表示時に自動開始
-startSession();
+// TXT出力ボタン
+exportButton.addEventListener("click", exportText);
+
+// 初回は自動開始しない
