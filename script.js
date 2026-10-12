@@ -11,8 +11,8 @@ const exportButton = document.getElementById("exportButton");
 
 // ===== 設定 =====
 const sessionDuration = 30000; // 30秒
-const period = 4000; // 1往復4秒
-const margin = 30; // 左右の余白
+const period = 3000; // 1往復4秒
+const margin = 10; // 左右の余白
 
 // ===== 管理変数 =====
 let startTime = null;
