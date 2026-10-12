@@ -29,6 +29,42 @@ function getPosition(elapsed) {
   return amplitude * Math.sin((2 * Math.PI * elapsed) / period);
 }
 
+
+/**
+ * 初期画面に戻す
+ */
+function resetSession() {
+
+  // アニメーションが動作中なら停止
+  if (animationId !== null) {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+  }
+
+  // セッションの実行状態を初期化
+  running = false;
+  startTime = null;
+
+  // 円を非表示にして中央へ戻す
+  circle.hidden = true;
+  circle.style.transform =
+    "translate(-50%, -50%)";
+
+  // 問いかけ・入力画面を非表示
+  resultArea.hidden = true;
+
+  // 最初のスタートボタンを表示
+  startButton.hidden = false;
+
+  // 停止ボタン・再開ボタンを非表示
+  stopButton.hidden = true;
+  restartButton.hidden = true;
+
+  // カウントダウンを非表示
+  countdown.hidden = true;
+  countdown.textContent = "残り 30 秒";
+}
+
 // ===== セッション終了 =====
 function finishSession() {
   if (!running) return;
@@ -173,7 +209,7 @@ startButton.addEventListener("click", startSession);
 stopButton.addEventListener("click", finishSession);
 
 // 再開ボタン
-restartButton.addEventListener("click", startSession);
+restartButton.addEventListener("click", resetSession);
 
 // TXT出力ボタン
 exportButton.addEventListener("click", exportText);
